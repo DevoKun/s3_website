@@ -30,11 +30,11 @@ run "git push"
 
 run "rake build"
 
-client = Octokit::Client.new(:login => 'laurilehmijoki', :password => ENV['S3_WEBSITE_RELEASE_KEY'])
+client = Octokit::Client.new(:login => 'DevoKun', :password => ENV['S3_WEBSITE_RELEASE_KEY'])
 release = client.create_release(
-  'laurilehmijoki/s3_website',
+  'DevoKun/s3_website',
   tag_name,
-  :body => "See https://github.com/laurilehmijoki/s3_website/blob/master/changelog.md##{version.gsub('.', '')}"
+  :body => "See https://github.com/DevoKun/s3_website/blob/master/changelog.md##{version.gsub('.', '')}"
 )
 puts "Uploading s3_website.jar..."
 client.upload_asset(release[:url], jar_location)

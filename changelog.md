@@ -1,6 +1,14 @@
-# Changelog
+Changelog
+=========
 
-This project uses [Semantic Versioning](http://semver.org).
+> This project uses [Semantic Versioning](http://semver.org).
+
+# Releases
+
+## 3.4.1
+
+* Fork of [laurilehmijoki/s3_website](https://github.com/laurilehmijoki/s3_website).
+* Pending Pull Requests from [laurilehmijoki/s3_website](https://github.com/laurilehmijoki/s3_website) merged.
 
 ## 3.4.0
 

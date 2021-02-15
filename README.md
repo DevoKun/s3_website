@@ -1,9 +1,7 @@
-# Deploy your website to S3
+Deploy your website to S3
+=========================
 
-[![Build Status](https://travis-ci.org/laurilehmijoki/s3_website.png?branch=master)](https://travis-ci.org/laurilehmijoki/s3_website)
-[![Gem Version](https://fury-badge.herokuapp.com/rb/s3_website.png)](http://badge.fury.io/rb/s3_website)
-
-Please note that this project is not actively maintained.
+> This is a fork of the [laurilehmijoki/s3_website](https://github.com/laurilehmijoki/s3_website) project with all pending pull requests merged.
 
 ## What `s3_website` can do for you
 
@@ -17,7 +15,9 @@ Please note that this project is not actively maintained.
 
 ## Install
 
-    gem install s3_website
+```bash
+gem install s3_website
+```
 
 s3_website needs both [Ruby](https://www.ruby-lang.org/en/downloads/)
 and [Java](http://java.com) to run. (S3_website is partly written in Scala, hence the need for Java 1.8 or later.)
@@ -510,14 +510,6 @@ Usage:
 session_token: your-token
 ```
 
-## Migrating from v1 to v2
-
-Please read the [release note](/changelog.md#200) on version 2. It contains
-information on backward incompatible changes.
-
-You can find the v1 branch
-[here](https://github.com/laurilehmijoki/s3_website/tree/1.x). It's in
-maintenance mode. This means that v1 will see only critical bugfix releases.
 
 ## Example configurations
 
@@ -568,10 +560,6 @@ If you are not sure how to test your pull request, you can ask the [gem owners
 However, by including proper tests, you increase the chances of your pull
 request being incorporated into future releases.
 
-## Alternatives
-
-* <https://pages.github.com/>
-* <https://pages.gitlab.io/>
 
 ## License
 
@@ -579,19 +567,8 @@ MIT. See the LICENSE file for more information.
 
 ## Contributors
 
-This gem is created by Lauri Lehmijoki. Without the valuable work of [Philippe
-Creux](https://github.com/pcreux) on
-[jekyll-s3](https://github.com/laurilehmijoki/jekyll-s3), this project would not
-exist.
+* This gem was created by Lauri Lehmijoki.
+* With inspiration from the work of [Philippe Creux](https://github.com/pcreux) on [jekyll-s3](https://github.com/laurilehmijoki/jekyll-s3).
 
-See the [Contributors](https://github.com/laurilehmijoki/s3_website/graphs/contributors).
 
-## Community articles
 
-* [Deploying websites to FTP or Amazon S3 with BitBucket Pipelines](https://www.savjee.be/2016/06/Deploying-website-to-ftp-or-amazon-s3-with-BitBucket-Pipelines/)
-* [How To: Hosting on Amazon S3 with CloudFront](https://paulstamatiou.com/hosting-on-amazon-s3-with-cloudfront/)
-* [Zero to HTTP/2 with AWS and Hugo](https://habd.as/zero-to-http-2-aws-hugo/)
-
-## Donations
-
-[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.2.0/dist/gittip.png)](https://www.gittip.com/laurilehmijoki/)
