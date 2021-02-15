@@ -245,7 +245,7 @@ def download_jar(jar_lookup_paths, logger)
     logger.fail_msg "Set either directory as writable to the current user and try again."
     exit 1
   end
-  download_url = "https://github.com/devokun/s3_website/releases/download/#{tag_name}/s3_website.jar"
+  download_url = "https://github.com/DevoKun/s3_website/releases/download/#{tag_name}/s3_website.jar"
   logger.info_msg "Downloading #{download_url} into #{downloaded_jar}"
   require 'open-uri'
   open(downloaded_jar, 'wb') do |file|

@@ -15,34 +15,60 @@ Deploy your website to S3
 
 ## Install
 
-```bash
-gem install s3_website
+
+* `s3_website` is primarily a [Ruby](https://www.ruby-lang.org/) app.
+* S3_website is partly written in Scala, and will require Java 1.8 or later to be installed. The build is currently produced on `OpenJDK-15`, but has been tested to be backwards compatible with OpenJDK 8 and OpenJDK 11.
+
+### Install via `bundler` from `github`
+
+* Create a `Gemfile`.<br />In the Gemfile, specify this git repo and the release tag.<br />_Use a tagged release instead of a branch name._
+
+```
+gem 's3_website', git: 'git@github.com:DevoKun/s3_website.git', tag: 'v3.4.1'
 ```
 
-s3_website needs both [Ruby](https://www.ruby-lang.org/en/downloads/)
-and [Java](http://java.com) to run. (S3_website is partly written in Scala, hence the need for Java 1.8 or later.)
+* Run `bundler` to install the gem
+```bash
+bundle
+```
+
+* Use `s3_website` to install the `s3_website.jar`
+```bash
+s3_website install
+```
+
+
 
 ## Usage
 
-Here's how you can get started:
-
-* Create API credentials that have sufficient permissions to S3. More info
-  [here](https://github.com/laurilehmijoki/s3_website/tree/master/additional-docs/setting-up-aws-credentials.md).
+* [Create API credentials that have sufficient permissions to S3.](https://github.com/DevoKun/s3_website/blob/main/additional-docs/setting-up-aws-credentials.md).
 * Go to your website directory
-* Run `s3_website cfg create`. This generates a configuration file called `s3_website.yml`.
-* Put your AWS credentials and the S3 bucket name into the file
-* Run `s3_website cfg apply`. This will configure your bucket to function as an
-  S3 website. If the bucket does not exist, the command will create it for you.
-* Run `s3_website push` to push your website to S3. Congratulations! You are live.
-* At any later time when you would like to synchronise your local website with
-  the S3 website, simply run `s3_website push` again.
-  (It will calculate the difference, update the changed files,
-  upload the new files and delete the obsolete files.)
+* Generate the `s3_website.yml` config file using:
+```bash
+s3_website cfg create
+```
+
+* Put your AWS credentials, _or profile name,_ and the S3 bucket name into the config file.
+* Configure your S3 bucket to function as an S3 website. If the bucket does not exist, the command will create it for you.
+```bash
+s3_website cfg apply
+```
+
+* Push the website to S3.
+```bash
+s3_website push
+```
+
+* Push website updates to the s3 bucket.<br />The command will calculate the difference, update the changed files, upload the new files, and delete the obsolete files.<br />If Cloudfront is enabled, `s3_website` will create an invalidation based on the changed files.
+```bash
+s3_website push
+```
+
 
 ### Specifying the location of your website
 
-S3_website will automatically discover websites in the *_site* and
-*public/output* directories.
+S3_website will automatically discover websites in the `_site` and
+`public/output` directories.
 
 If your website is not in either of those directories, you can
 point the location of your website in two ways:
@@ -54,6 +80,8 @@ If you want to store the `s3_website.yml` file in a directory other than
 the project's root you can specify the directory like so:
 `s3_website push --config-dir config`.
 
+
+
 ### Using standard AWS credentials
 
 If you omit `s3_id` from your `s3_website.yml`, S3_website will fall back to reading from the [default AWS SDK locations](http://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html). For instance, if you've used `aws configure` to set up credentials in `~/.aws/credentials`, S3_website can use these.
@@ -62,13 +90,17 @@ If you omit `s3_id` from your `s3_website.yml`, S3_website will fall back to rea
 
 If you omit `s3_id`, `s3_secret`, and `session_token` you can specify an AWS credentials profile to use via the `profile` configuration variable, eg:
 
-    profile: name_of_aws_profile
+```
+profile: name_of_aws_profile
+```
 
 In addition, if you want this profile to assume a role before executing against S3, use the `profile_assume_role_arn` variable, eg:
 
-    profile_assume_role_arn: arn_of_role_to_assume
+```
+profile_assume_role_arn: arn_of_role_to_assume
+```
 
-(Note: you have to use a regular profile with an ID and SECRET and specify the role ARN via a variable like this instead of a profile that specifies a `role_arn` as documented [here](http://docs.aws.amazon.com/cli/latest/userguide/cli-roles.html) since it does not look like the Java SDK supports that format, yet...)
+[You have to use a regular profile with an ID and SECRET and specify the role ARN via a variable like this instead of a profile that specifies a `role_arn`](http://docs.aws.amazon.com/cli/latest/userguide/cli-roles.html).
 
 ### Using environment variables
 
@@ -77,7 +109,7 @@ You can use ERB in your `s3_website.yml` file which incorporates environment var
 ```yaml
 s3_id: <%= ENV['S3_ID'] %>
 s3_secret: <%= ENV['S3_SECRET'] %>
-s3_bucket: blog.example.com
+s3_bucket: BUCKETNAME
 ```
 
 (If you are using `s3_website` on an [EC2 instance with IAM
@@ -92,8 +124,11 @@ syntax information.
 
 Your `.env` file should containing the following variables:
 
-    S3_ID=FOO
-    S3_SECRET=BAR
+```
+S3_ID=FOO
+S3_SECRET=BAR
+```
+
 
 S3_website will also honor environment variables named `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_SESSION_TOKEN` (if using STS) automatically if `s3_id` is ommitted from `s3_website.yml`.
 
@@ -148,7 +183,7 @@ Force-pushing allows you to update the S3 object metadata of existing files.
 The `cache_control` setting allows you to define an arbitrary string that s3_website
 will put on all the S3 objects of your website.
 
-Here's an example:
+##### Here's an example:
 
 ```yaml
 cache_control: public, no-transform, max-age=1200, s-maxage=1200
@@ -530,7 +565,7 @@ For git users this means that the file `.gitignore` should mention the
 If you use the .dotenv gem, ensure that you do not push the `.env` file to a
 public git repository.
 
-## Known issues
+## Submitting Issues
 
 Please create an issue and send a pull request if you spot any.
 

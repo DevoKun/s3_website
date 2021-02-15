@@ -23,6 +23,8 @@ run "sbt clean assembly"
 # The bin s3_website uses the MD5 checksum to verify that the jar is not corrupted
 jar_md5 = Digest::MD5.file(jar_location).hexdigest
 File.write('resources/s3_website.jar.md5', jar_md5)
+run "git add resources/s3_website.jar.md5"
+run "git commit -m 'updated s3_website.jar.md5 for v#{version}' resources/s3_website.jar.md5"
 
 tag_name = "v#{version}"
 run "git tag #{tag_name} && git push origin #{tag_name}"
@@ -38,6 +40,7 @@ release = client.create_release(
 )
 puts "Uploading s3_website.jar to github"
 client.upload_asset(release[:url], jar_location)
+
 #puts "Pushing gem"
 #run "gem push pkg/s3_website-#{version}.gem"
 

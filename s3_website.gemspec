@@ -15,7 +15,10 @@ Gem::Specification.new do |s|
   }
   s.license     = 'MIT'
 
-  s.default_executable = %q{s3_website}
+  #
+  # Gem::Specification#default_executable= is deprecated with no replacement. It will be removed in Rubygems 4
+  #
+  #s.default_executable = %q{s3_website}
 
   s.add_dependency 'thor', '~> 0.18'
   s.add_dependency 'configure-s3-website', '= 2.3.0'
