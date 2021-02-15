@@ -221,19 +221,24 @@ def resolve_jar(project_root, logger)
     }.
     first
   def jar_has_valid_checksum(jar_path, logger)
-    expected_checksum = File.read(File.dirname(__FILE__) + '/../resources/s3_website.jar.md5')
+    checksum_file = File.dirname(__FILE__) + '/../resources/s3_website.jar.md5'
+    logger.info_msg "Checking s3_website.jar MD5sum from #{checksum_file}"
+    expected_checksum = File.read(checksum_file)
     found_checksum = Digest::MD5.file(jar_path).hexdigest
     if expected_checksum == found_checksum
+      logger.info_msg "Checksum of installed s3_website.jar (#{expected_checksum}) is valid"
       true
     else
-      logger.info_msg "The jar file is corrupted. (Expected checksum #{expected_checksum} but got #{found_checksum}.)"
+      logger.info_msg "Expected checksum #{expected_checksum} but got #{found_checksum}"
       false
     end
   end
   jar_file =
     if found_jar and jar_has_valid_checksum(found_jar, logger)
+      logger.info_msg "s3_website.jar found and checksum valid. Not reinstalling."
       found_jar
     else
+      logger.info_msg "jar missing or checksum invalid. Will download s3_website.jar"
       download_jar(jar_lookup_paths, logger)
     end
 end
