@@ -183,8 +183,7 @@ def autoinstall_java_or_print_help_and_exit(logger)
   ]
 
   def print_manual_method_and_exit
-    @logger.info_msg 'Go to http://java.com, install Java and then try again.'
-    @logger.info_msg "(If you cannot or do not want to install Java, you can use latest 1.x version of this gem, which requires only Ruby. For more info, see https://github.com/laurilehmijoki/s3_website/tree/1.x)"
+    @logger.info_msg 'Please install Java and then try again.'
     exit 1
   end
 
@@ -192,7 +191,7 @@ def autoinstall_java_or_print_help_and_exit(logger)
     resolve_exit_status automatic_method.fetch(:package_manager_lookup)
   }
   if automatic_method
-    @logger.info_msg "Do you want me to install Java with the command `#{automatic_method.fetch(:install_command)}`? [Y/n]"
+    @logger.info_msg "Do you want me to install OpenJDK-11 with the command `#{automatic_method.fetch(:install_command)}`? [Y/n]"
     user_answer = $stdin.gets
     if user_answer.chomp.downcase == 'y' or user_answer == "\n" or user_answer.nil?
       automatic_method_succeeded = system automatic_method.fetch(:install_command)
@@ -246,7 +245,7 @@ def download_jar(jar_lookup_paths, logger)
     logger.fail_msg "Set either directory as writable to the current user and try again."
     exit 1
   end
-  download_url = "https://github.com/laurilehmijoki/s3_website/releases/download/#{tag_name}/s3_website.jar"
+  download_url = "https://github.com/devokun/s3_website/releases/download/#{tag_name}/s3_website.jar"
   logger.info_msg "Downloading #{download_url} into #{downloaded_jar}"
   require 'open-uri'
   open(downloaded_jar, 'wb') do |file|

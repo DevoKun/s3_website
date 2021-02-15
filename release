@@ -36,6 +36,10 @@ release = client.create_release(
   tag_name,
   :body => "See https://github.com/DevoKun/s3_website/blob/master/changelog.md##{version.gsub('.', '')}"
 )
-puts "Uploading s3_website.jar..."
+puts "Uploading s3_website.jar to github"
 client.upload_asset(release[:url], jar_location)
-run "gem push pkg/s3_website-#{version}.gem"
+#puts "Pushing gem"
+#run "gem push pkg/s3_website-#{version}.gem"
+
+
+
