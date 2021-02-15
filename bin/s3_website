@@ -3,6 +3,9 @@
 require File.expand_path(File.dirname(__FILE__)+ '/../lib/s3_website')
 require 'colored'
 require 'digest/md5'
+require 'net/http'
+require 'net/https' if RUBY_VERSION < '1.9'
+require 'uri'
 
 class Cfg < Thor
   def self.exit_on_failure?
@@ -246,11 +249,28 @@ def download_jar(jar_lookup_paths, logger)
     exit 1
   end
   download_url = "https://github.com/DevoKun/s3_website/releases/download/#{tag_name}/s3_website.jar"
-  logger.info_msg "Downloading #{download_url} into #{downloaded_jar}"
-  require 'open-uri'
-  open(downloaded_jar, 'wb') do |file|
-    file << open(download_url).read
-  end
+
+  logger.info_msg "Original URL: #{download_url}"
+
+  uri = URI.parse(download_url)
+  res = Net::HTTP.get_response(uri)
+  download_url2 = res['location']
+
+  logger.info_msg "Redirect URL: #{download_url2}"
+
+  uri = URI.parse(download_url2)
+
+  logger.info_msg "Downloading into #{downloaded_jar}"
+  logger.info_msg "URI scheme..: #{uri.scheme}"
+  logger.info_msg "URI Host....: #{uri.host}"
+  logger.info_msg "URI Port....: #{uri.port}"
+  logger.info_msg "URI Query...: #{uri.query}"
+
+  res = Net::HTTP.get uri
+  fh = File.open(downloaded_jar, "wb")
+  fh.write(res)
+  fh.close
+
   downloaded_jar
 end
 
